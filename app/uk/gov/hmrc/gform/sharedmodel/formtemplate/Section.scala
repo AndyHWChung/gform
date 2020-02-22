@@ -40,14 +40,13 @@ object Section {
   }
 
   case class AddToList(
-    id: AddToListId,
     title: SmartString,
-    description: Option[SmartString],
-    shortName: Option[SmartString],
+    description: SmartString,
+    shortName: SmartString,
     includeIf: Option[IncludeIf],
     repeatsMax: Option[TextExpression],
     pages: NonEmptyList[Page],
-    formComponent: FormComponent
+    addAnotherQuestion: FormComponent
   ) extends Section {
     override lazy val expandedFormComponents: List[FormComponent] = pages.toList.flatMap(_.expandedFormComponents)
   }
