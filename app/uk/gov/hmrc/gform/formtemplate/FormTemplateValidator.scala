@@ -197,7 +197,7 @@ object FormTemplateValidator {
           .zipWithIndex
           .flatMap {
             case (page: Page, idx) =>
-              page.includeIf.map(i => boolean(i.expr, idx)).getOrElse(List(Valid))
+              page.includeIf.map(i => boolean(i.booleanExpr, idx)).getOrElse(List(Valid))
           })
   }
 

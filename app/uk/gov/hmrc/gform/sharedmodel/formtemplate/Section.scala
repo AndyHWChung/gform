@@ -34,7 +34,7 @@ object Section {
     override def expandedFormComponents: List[FormComponent] = page.expandedFormComponents
   }
 
-  case class RepeatingPage(page: Page, repeats: TextExpression) extends Section {
+  case class RepeatingPage(page: Page, repeats: Expr) extends Section {
     override def title: SmartString = page.title
     override def expandedFormComponents: List[FormComponent] = page.expandedFormComponents
   }
@@ -44,7 +44,7 @@ object Section {
     description: SmartString,
     shortName: SmartString,
     includeIf: Option[IncludeIf],
-    repeatsMax: Option[TextExpression],
+    repeatsMax: Option[Expr],
     pages: NonEmptyList[Page],
     addAnotherQuestion: FormComponent
   ) extends Section {

@@ -42,7 +42,7 @@ trait ExampleAuthConfig extends DestinationGen {
   val hmrcDms = HmrcDms(
     DestinationId("TestHmrcDmsId"),
     "TestHmrcDmsFormId",
-    TextExpression(Constant("TestHmrcDmsCustomerId")),
+    Constant("TestHmrcDmsCustomerId"),
     "TestHmrcDmsClassificationType",
     "TestHmrcDmsBusinessArea",
     "",
@@ -322,7 +322,7 @@ trait ExampleSection { dependecies: ExampleFieldId with ExampleFieldValue with E
         None,
         None
       ),
-      repeats = TextExpression(FormCtx(`fieldId - firstName`.value))
+      repeats = FormCtx(`fieldId - firstName`.value)
     )
 
   def `section - group` =

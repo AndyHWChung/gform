@@ -17,6 +17,7 @@
 package uk.gov.hmrc.gform.sharedmodel.formtemplate.destinations
 
 import uk.gov.hmrc.gform.Spec
+import uk.gov.hmrc.gform.sharedmodel.formtemplate.TextExpression
 import uk.gov.hmrc.gform.sharedmodel.formtemplate.generators.DestinationGen
 
 class UploadableDestinationSpec extends Spec {
@@ -96,7 +97,7 @@ class UploadableDestinationSpec extends Spec {
     UploadableHmrcDmsDestination(
       id,
       dmsFormId,
-      customerId,
+      TextExpression(customerId),
       classificationType,
       businessArea,
       convertSingleQuotes,

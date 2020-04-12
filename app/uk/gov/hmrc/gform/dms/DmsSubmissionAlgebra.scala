@@ -86,7 +86,7 @@ object DmsSubmissionService {
     HmrcDms(
       DestinationId("HmrcDms"),
       metadata.dmsFormId,
-      TextExpression(Constant(metadata.customerId)),
+      Constant(metadata.customerId),
       metadata.classificationType,
       metadata.businessArea,
       "",

@@ -66,8 +66,6 @@ trait SectionGen {
       progressIndicator <- Gen.option(smartStringGen)
       shortName         <- Gen.option(smartStringGen)
       includeIf         <- Gen.option(IncludeIfGen.includeIfGen)
-      repeatsMax        <- Gen.option(FormatExprGen.textExpressionGen)
-      repeatMin         <- Gen.option(FormatExprGen.textExpressionGen)
       validators        <- Gen.option(ValidatorGen.validatorGen)
       fields            <- PrimitiveGen.oneOrMoreGen(FormComponentGen.formComponentGen())
       continueLabel     <- Gen.option(smartStringGen)
@@ -90,7 +88,7 @@ trait SectionGen {
   def repeatingPageSectionGen: Gen[Section.RepeatingPage] =
     for {
       page    <- pageGen
-      repeats <- FormatExprGen.textExpressionGen
+      repeats <- ExprGen.exprGen()
     } yield Section.RepeatingPage(page, repeats)
 
   def addToListSectionGen: Gen[Section.AddToList] =
@@ -99,7 +97,7 @@ trait SectionGen {
       description   <- smartStringGen
       shortName     <- smartStringGen
       includeIf     <- Gen.option(IncludeIfGen.includeIfGen)
-      repeatsMax    <- Gen.option(FormatExprGen.textExpressionGen)
+      repeatsMax    <- Gen.option(ExprGen.exprGen())
       pages         <- PrimitiveGen.oneOrMoreGen(pageGen)
       formComponent <- FormComponentGen.formComponentGen(0)
       choice        <- ComponentTypeGen.choiceGen

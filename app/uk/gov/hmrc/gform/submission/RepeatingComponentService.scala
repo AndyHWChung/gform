@@ -64,7 +64,7 @@ object RepeatingComponentService {
     variadicData: VariadicFormData,
     affinityGroup: Option[AffinityGroup]): Boolean =
     includeIf
-      .map(incIf => BooleanExprEval.isTrue(incIf.expr, variadicData, affinityGroup))
+      .map(incIf => BooleanExprEval.isTrue(incIf.booleanExpr, variadicData, affinityGroup))
       .map { res =>
         res.beResult &&
         res.dependingOn.forall(formComponentId =>

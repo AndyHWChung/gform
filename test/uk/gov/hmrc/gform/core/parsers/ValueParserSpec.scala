@@ -50,6 +50,10 @@ class ValueParserSpec extends Spec {
     val res = ValueParser.validate("${''}")
     res.right.value should be(TextExpression(Constant("")))
   }
+  it should "parse an anything except singe quote" in {
+    val res = ValueParser.validate("${' --+===> '}")
+    res.right.value should be(TextExpression(Constant("--+===> ")))
+  }
   it should "parse double digit integer" in {
     val res = ValueParser.validate("${1234}")
     res.right.value should be(TextExpression(Constant("1234")))
@@ -404,7 +408,7 @@ class ValueParserSpec extends Spec {
           HmrcDms(
             DestinationId("TestHmrcDmsId"),
             "TestHmrcDmsFormId",
-            TextExpression(Constant("TestHmrcDmsCustomerId")),
+            Constant("TestHmrcDmsCustomerId"),
             "TestHmrcDmsClassificationType",
             "TestHmrcDmsBusinessArea",
             "",

@@ -86,8 +86,6 @@ trait FormatExprGen {
     Gen.const(ChildBenefitNumber)
   )
 
-  def textExpressionGen: Gen[TextExpression] = ExprGen.exprGen().map(TextExpression(_))
-
   def beforeOrAfterOrPreciselyGen: Gen[BeforeAfterPrecisely] = Gen.oneOf(Before, After, Precisely)
 
   def exactYearGen: Gen[ExactYear] = Gen.posNum[Int].map(ExactYear)
