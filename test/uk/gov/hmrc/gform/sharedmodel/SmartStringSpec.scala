@@ -16,12 +16,16 @@
 
 package uk.gov.hmrc.gform.sharedmodel
 
+import org.scalacheck.Gen
+import scala.language.implicitConversions
 import uk.gov.hmrc.gform._
 import uk.gov.hmrc.gform.sharedmodel.formtemplate._
-import org.scalacheck.Gen
 import uk.gov.hmrc.gform.sharedmodel.formtemplate.generators.{ ExprGen, PrimitiveGen }
 
 class SmartStringSpec extends Spec {
+
+  implicit def implicitToFormComponentId(str: String): FormComponentId = FormComponentId(str)
+
   "JSON" should "read a simple String with no embedded interpolations" in {
     forAll(Gen.asciiStr) { s =>
       val c = condition(s)

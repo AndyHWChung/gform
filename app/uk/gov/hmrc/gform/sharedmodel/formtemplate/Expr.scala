@@ -35,10 +35,7 @@ final case class Multiply(field1: Expr, field2: Expr) extends Expr
 final case class Subtraction(field1: Expr, field2: Expr) extends Expr
 final case class Else(field1: Expr, field2: Expr) extends Expr
 final case class Sum(field1: Expr) extends Expr
-
-final case class FormCtx(value: String) extends Expr {
-  def toFieldId = FormComponentId(this.value)
-}
+final case class FormCtx(formComponentId: FormComponentId) extends Expr
 
 object FormCtx {
   lazy val readsForTemplateJson: Reads[FormCtx] = Reads {

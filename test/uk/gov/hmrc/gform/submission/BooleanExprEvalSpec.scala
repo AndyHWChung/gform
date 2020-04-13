@@ -18,11 +18,15 @@ package uk.gov.hmrc.gform.submission
 
 import org.scalatest._
 import org.scalatest.prop.PropertyChecks
+import scala.language.implicitConversions
 import uk.gov.hmrc.gform.sharedmodel.VariadicFormData
 import uk.gov.hmrc.gform.sharedmodel.formtemplate.DataSource.SeissEligible
 import uk.gov.hmrc.gform.sharedmodel.formtemplate._
 
 class BooleanExprEvalSpec extends FlatSpec with Matchers with EitherValues with PropertyChecks {
+
+  implicit def implicitToFormComponentId(str: String): FormComponentId = FormComponentId(str)
+
   "isTrue" should "evaluate Equals with simple FormCtx fields" in {
     val data = VariadicFormData.ones(FormComponentId("firstName") -> "Pete")
 

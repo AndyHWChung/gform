@@ -17,10 +17,13 @@
 package uk.gov.hmrc.gform.core.parsers
 
 import org.scalatest._
+import scala.language.implicitConversions
 import uk.gov.hmrc.gform.exceptions.UnexpectedState
 import uk.gov.hmrc.gform.sharedmodel.formtemplate._
 
 class BooleanExprParserSpec extends FlatSpec with Matchers with EitherValues with OptionValues {
+
+  implicit def implicitToFormComponentId(str: String): FormComponentId = FormComponentId(str)
 
   "BooleanExprParser" should "parse equality" in {
     val res = BooleanExprParser.validate("${isPremisesSameAsBusinessAddress=0}")

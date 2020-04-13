@@ -1125,7 +1125,7 @@ class FormComponentSpec extends Spec {
         toSmartString("Label -- standard info field"),
         None,
         None,
-        Some(ValidIf(Equals(FormCtx("info"), Constant("Hello")))),
+        Some(ValidIf(Equals(FormCtx(FormComponentId("info")), Constant("Hello")))),
         true,
         false,
         false,

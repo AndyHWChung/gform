@@ -87,8 +87,8 @@ object ValueParser {
     | "form" ~ "." ~ "id" ^^ { (loc, _, _, fieldName) =>
       FormTemplateCtx(FormTemplateProp.Id)
     }
-    | "form" ~ "." ~ alphabeticOnly ^^ { (loc, _, _, fieldName) =>
-      FormCtx(fieldName)
+    | "form" ~ "." ~ FormComponentId.unanchoredIdValidation ^^ { (loc, _, _, fieldName) =>
+      FormCtx(FormComponentId(fieldName))
     }
     | "param" ~ "." ~ alphabeticOnly ^^ { (loc, _, _, param) =>
       ParamCtx(QueryParam(param))
@@ -104,14 +104,14 @@ object ValueParser {
     }
     | quotedConstant
 
-    | alphabeticOnly ~ ".sum" ^^ { (loc, value, _) =>
-      Sum(FormCtx(value))
+    | FormComponentId.unanchoredIdValidation ~ ".sum" ^^ { (loc, value, _) =>
+      Sum(FormCtx(FormComponentId(value)))
     }
     | anyDigitConst ^^ { (loc, str) =>
       str
     }
-    | alphabeticOnly ^^ { (loc, fn) =>
-      FormCtx(fn)
+    | FormComponentId.unanchoredIdValidation ^^ { (loc, fn) =>
+      FormCtx(FormComponentId(fn))
     })
 
   lazy val parserExpression: Parser[Expr] = ("(" ~ addExpression ~ ")" ^^ { (loc, _, expr, _) =>

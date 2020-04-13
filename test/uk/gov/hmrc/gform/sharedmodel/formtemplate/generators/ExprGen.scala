@@ -56,7 +56,7 @@ trait ExprGen {
   def sumGen(maxDepth: Int): Gen[Sum] =
     exprGen(maxDepth - 1).map(Sum)
 
-  def formCtxGen: Gen[FormCtx] = PrimitiveGen.nonEmptyAlphaNumStrGen.map(FormCtx(_))
+  def formCtxGen: Gen[FormCtx] = FormComponentGen.formComponentIdGen.map(FormCtx(_))
 
   def authCtxGen: Gen[AuthCtx] = authInfoGen.map(AuthCtx)
 

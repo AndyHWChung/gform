@@ -17,6 +17,7 @@
 package uk.gov.hmrc.gform.core.parsers
 
 import cats.data.NonEmptyList
+import scala.language.implicitConversions
 import uk.gov.hmrc.gform.Helpers._
 import uk.gov.hmrc.gform.Spec
 import uk.gov.hmrc.gform.core._
@@ -31,7 +32,7 @@ import scala.language.implicitConversions
 
 class ValueParserSpec extends Spec {
 
-  //TODO: use ExampleData
+  implicit def implicitToFormComponentId(str: String): FormComponentId = FormComponentId(str)
 
   "ValueParser" should "parse integer" in {
     val res = ValueParser.validate("${1}")

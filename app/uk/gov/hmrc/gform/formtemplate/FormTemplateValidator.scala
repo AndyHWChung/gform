@@ -100,9 +100,9 @@ object FormTemplateValidator {
   def validateEnrolmentSection(formTemplate: FormTemplate): ValidationResult =
     formTemplate.authConfig match {
       case HasEnrolmentSection(_, enrolmentSection, _) =>
-        val fcIds = enrolmentSection.fields.map(_.id).map(_.value).toSet
-        val ctxs = enrolmentSection.identifiers.map(_.value.value).toList.toSet ++ enrolmentSection.verifiers
-          .map(_.value.value)
+        val fcIds = enrolmentSection.fields.map(_.id).toSet
+        val ctxs = enrolmentSection.identifiers.map(_.value.formComponentId).toList.toSet ++ enrolmentSection.verifiers
+          .map(_.value.formComponentId)
           .toSet
         ctxs
           .subsetOf(fcIds)
@@ -219,7 +219,6 @@ object FormTemplateValidator {
       case HmrcRosmRegistrationCheck(_) => Valid
       case FormCtx(value) =>
         fieldNamesIds
-          .map(_.value)
           .contains(value)
           .validationResult(s"Form field '$value' is not defined in form template.")
       case ParamCtx(_)        => Valid
@@ -238,7 +237,7 @@ object FormTemplateValidator {
       val ids = fieldIds(formTemplate.sections)
       emailParams
         .collect {
-          case EmailParameter(_, value: FormCtx) if !ids.contains(value.toFieldId) => value.toFieldId
+          case EmailParameter(_, FormCtx(value)) if !ids.contains(value) => value
         } match {
         case Nil => Valid
         case invalidFields =>
@@ -273,7 +272,7 @@ object FormTemplateValidator {
     case Subtraction(left, right) => extractFcIds(left) ::: extractFcIds(right)
     case Multiply(left, right)    => extractFcIds(left) ::: extractFcIds(right)
     case Sum(field1)              => extractFcIds(field1)
-    case id: FormCtx              => List(id.toFieldId)
+    case FormCtx(fcId)            => List(fcId)
     case _                        => Nil
   }
 

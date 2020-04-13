@@ -143,7 +143,9 @@ class TemplateValidatorSpec extends Spec {
 
   "TemplateValidator.validateDependencyGraph" should "detect cycle in graph" in {
     val sections =
-      mkSection("page 1", mkFormComponent("a", FormCtx("b")) :: mkFormComponent("b", FormCtx("a")) :: Nil) :: Nil
+      mkSection(
+        "page 1",
+        mkFormComponent("a", FormCtx(FormComponentId("b"))) :: mkFormComponent("b", FormCtx(FormComponentId("a"))) :: Nil) :: Nil
 
     val formTemplateWithOneSection = formTemplate.copy(sections = sections)
 
@@ -170,7 +172,7 @@ class TemplateValidatorSpec extends Spec {
 
     val newEmailParameters = Some(
       NonEmptyList.of(
-        EmailParameter("fullName", FormCtx("declarationFullName"))
+        EmailParameter("fullName", FormCtx(FormComponentId("declarationFullName")))
       ))
 
     val newDestinationsSection: Destinations =
@@ -210,7 +212,7 @@ class TemplateValidatorSpec extends Spec {
 
     val newEmailParameters = Some(
       NonEmptyList.of(
-        EmailParameter("fieldEmailTemplateId", FormCtx("fieldInAcknowledgementSection"))
+        EmailParameter("fieldEmailTemplateId", FormCtx(FormComponentId("fieldInAcknowledgementSection")))
       ))
     val newFormTemplate =
       mkFormTemplate(formComponent, newEmailParameters)
@@ -226,7 +228,8 @@ class TemplateValidatorSpec extends Spec {
 
     val formComponents = List(mkFormComponent("fieldContainedInFormTemplate", Value))
     val newEmailParameters =
-      Some(NonEmptyList.of(EmailParameter("templateIdVariable", FormCtx("fieldContainedInFormTemplate"))))
+      Some(
+        NonEmptyList.of(EmailParameter("templateIdVariable", FormCtx(FormComponentId("fieldContainedInFormTemplate")))))
 
     val newFormTemplate = mkFormTemplate(formComponents, newEmailParameters)
 
@@ -240,7 +243,8 @@ class TemplateValidatorSpec extends Spec {
     val formComponents = List(mkFormComponent("fieldContainedInFormTemplate", Value))
     val newSection = mkSection("example", formComponents)
     val newEmailParameters =
-      Some(NonEmptyList.of(EmailParameter("templateIdVariable", FormCtx("fieldContainedInFormTemplate"))))
+      Some(
+        NonEmptyList.of(EmailParameter("templateIdVariable", FormCtx(FormComponentId("fieldContainedInFormTemplate")))))
 
     val newFormTemplate =
       formTemplate.copy(sections = List(newSection, newSection), emailParameters = newEmailParameters)
@@ -501,8 +505,8 @@ class TemplateValidatorSpec extends Spec {
     val baseSectionA = mkSection("sectionA", formComponentsA)
     val baseSectionB = mkSection("sectionB", formComponentsB)
     val constant = Constant("c")
-    val forwardRef = FormCtx("fieldB")
-    val invalidRef = FormCtx("a")
+    val forwardRef = FormCtx(FormComponentId("fieldB"))
+    val invalidRef = FormCtx(FormComponentId("a"))
     val forwardReferenceError = Invalid("id 'fieldB' named in includeIf is forward reference, which is not permitted")
     val invalidReferenceError = Invalid("id 'a' named in includeIf expression does not exist in a form")
     val table =

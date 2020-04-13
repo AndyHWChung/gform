@@ -115,7 +115,8 @@ class AuthConfigSpec extends Spec {
                 toSmartString("t"),
                 None,
                 List.empty,
-                NonEmptyList.of(IdentifierRecipe("EtmpRegistrationNumber", FormCtx("eeittReferenceNumber"))),
+                NonEmptyList.of(
+                  IdentifierRecipe("EtmpRegistrationNumber", FormCtx(FormComponentId("eeittReferenceNumber")))),
                 List.empty
               ),
               NoAction
@@ -159,7 +160,8 @@ class AuthConfigSpec extends Spec {
                 toSmartString("t"),
                 None,
                 List.empty,
-                NonEmptyList.of(IdentifierRecipe("EtmpRegistrationNumber", FormCtx("eeittReferenceNumber"))),
+                NonEmptyList.of(
+                  IdentifierRecipe("EtmpRegistrationNumber", FormCtx(FormComponentId("eeittReferenceNumber")))),
                 List.empty
               ),
               LegacyFcEnrolmentVerifier("NonUKCountryCode")
