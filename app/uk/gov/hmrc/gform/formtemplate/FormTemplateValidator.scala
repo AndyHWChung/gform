@@ -249,9 +249,9 @@ object FormTemplateValidator {
   def validateDates(formTemplate: FormTemplate): ValidationResult =
     getAllDates(formTemplate)
       .map {
-        case ConcreteDate(ExactYear(year), ExactMonth(month), ExactDay(day)) =>
+        case ConcreteDate(Year.Exact(year), Month.Exact(month), Day.Exact(day)) =>
           validateYearMonthAndDay(year, month, day)
-        case ConcreteDate(AnyYear, ExactMonth(month), ExactDay(day)) =>
+        case ConcreteDate(Year.Any, Month.Exact(month), Day.Exact(day)) =>
           val leapYear = 2020 //makes 29th of feb valid when we dont know the year
           validateYearMonthAndDay(leapYear, month, day)
         case _ => ""

@@ -257,8 +257,8 @@ class TemplateValidatorSpec extends Spec {
   "TemplateValidator.validateDates" should "be invalid with dates yyyy-02-31 and yyyy-04-31" in {
 
     val formComponents = List(
-      mkFormComponent("fieldContainedInFormTemplate", mkDate(AnyYear, ExactMonth(2), ExactDay(31), None)),
-      mkFormComponent("fieldContainedInFormTemplate", mkDate(AnyYear, ExactMonth(4), ExactDay(31), None))
+      mkFormComponent("fieldContainedInFormTemplate", mkDate(Year.Any, Month.Exact(2), Day.Exact(31), None)),
+      mkFormComponent("fieldContainedInFormTemplate", mkDate(Year.Any, Month.Exact(4), Day.Exact(31), None))
     )
 
     val newFormTemplate = mkFormTemplate(formComponents)
@@ -273,16 +273,16 @@ class TemplateValidatorSpec extends Spec {
     val table =
       Table(
         ("actual", "expected"),
-        (dateValidation(ExactYear(2003), AnyMonth, ExactDay(4)), Valid),
-        (dateValidation(AnyYear, AnyMonth, ExactDay(15)), Valid),
-        (dateValidation(AnyYear, ExactMonth(11), AnyDay), Valid),
-        (dateValidation(ExactYear(2015), ExactMonth(1), AnyDay), Valid),
-        (dateValidation(ExactYear(2015), ExactMonth(1), ExactDay(14)), Valid),
-        (dateValidation(AnyYear, AnyMonth, AnyDay), Valid),
-        (dateValidation(ExactYear(2001), ExactMonth(12), ExactDay(4)), Valid),
-        (dateValidation(ExactYear(1996), ExactMonth(11), ExactDay(2)), Valid),
-        (dateValidation(ExactYear(2018), ExactMonth(12), ExactDay(31)), Valid),
-        (dateValidation(ExactYear(2030), ExactMonth(4), ExactDay(3)), Valid)
+        (dateValidation(Year.Exact(2003), Month.Any, Day.Exact(4)), Valid),
+        (dateValidation(Year.Any, Month.Any, Day.Exact(15)), Valid),
+        (dateValidation(Year.Any, Month.Exact(11), Day.Any), Valid),
+        (dateValidation(Year.Exact(2015), Month.Exact(1), Day.Any), Valid),
+        (dateValidation(Year.Exact(2015), Month.Exact(1), Day.Exact(14)), Valid),
+        (dateValidation(Year.Any, Month.Any, Day.Any), Valid),
+        (dateValidation(Year.Exact(2001), Month.Exact(12), Day.Exact(4)), Valid),
+        (dateValidation(Year.Exact(1996), Month.Exact(11), Day.Exact(2)), Valid),
+        (dateValidation(Year.Exact(2018), Month.Exact(12), Day.Exact(31)), Valid),
+        (dateValidation(Year.Exact(2030), Month.Exact(4), Day.Exact(3)), Valid)
       )
 
     table.forEvery { case (actual, expected) => actual shouldBe expected }
@@ -300,11 +300,11 @@ class TemplateValidatorSpec extends Spec {
 
     val table = Table(
       ("actual", "expected"),
-      (dateValidation(ExactYear(2001), ExactMonth(4), ExactDay(31)), invalidDateFailure("APRIL", 31)),
-      (dateValidation(ExactYear(2001), ExactMonth(4), ExactDay(33)), dayOutOfRangeFailure(33)),
-      (dateValidation(ExactYear(2001), ExactMonth(13), ExactDay(14)), monthOutOfRangeFailure(13)),
-      (dateValidation(AnyYear, ExactMonth(6), ExactDay(31)), invalidDateFailure("JUNE", 31)),
-      (dateValidation(AnyYear, ExactMonth(11), ExactDay(33)), dayOutOfRangeFailure(33))
+      (dateValidation(Year.Exact(2001), Month.Exact(4), Day.Exact(31)), invalidDateFailure("APRIL", 31)),
+      (dateValidation(Year.Exact(2001), Month.Exact(4), Day.Exact(33)), dayOutOfRangeFailure(33)),
+      (dateValidation(Year.Exact(2001), Month.Exact(13), Day.Exact(14)), monthOutOfRangeFailure(13)),
+      (dateValidation(Year.Any, Month.Exact(6), Day.Exact(31)), invalidDateFailure("JUNE", 31)),
+      (dateValidation(Year.Any, Month.Exact(11), Day.Exact(33)), dayOutOfRangeFailure(33))
     )
 
     table.forEvery { case (actual, expected) => actual shouldBe expected }
@@ -314,7 +314,8 @@ class TemplateValidatorSpec extends Spec {
   "TemplateValidator.validateDates with date 2018-02-29" should "return Invalid" in {
 
     val formComponents =
-      List(mkFormComponent("fieldContainedInFormTemplate", mkDate(ExactYear(2018), ExactMonth(2), ExactDay(29), None)))
+      List(
+        mkFormComponent("fieldContainedInFormTemplate", mkDate(Year.Exact(2018), Month.Exact(2), Day.Exact(29), None)))
 
     val newFormTemplate = mkFormTemplate(formComponents)
 
@@ -327,7 +328,8 @@ class TemplateValidatorSpec extends Spec {
   "TemplateValidator.validateDates with date 2018-02-02" should "return Valid" in {
 
     val formComponents =
-      List(mkFormComponent("fieldContainedInFormTemplate", mkDate(ExactYear(2018), ExactMonth(2), ExactDay(2), None)))
+      List(
+        mkFormComponent("fieldContainedInFormTemplate", mkDate(Year.Exact(2018), Month.Exact(2), Day.Exact(2), None)))
 
     val newFormTemplate = mkFormTemplate(formComponents)
 
@@ -366,7 +368,7 @@ class TemplateValidatorSpec extends Spec {
       List(
         mkFormComponent(
           "fieldContainedInFormTemplate",
-          mkDate(ExactYear(2018), ExactMonth(2), ExactDay(14), Some(ExactDateValue(2018, 2, 31)))))
+          mkDate(Year.Exact(2018), Month.Exact(2), Day.Exact(14), Some(ExactDateValue(2018, 2, 31)))))
 
     val newFormTemplate = mkFormTemplate(formComponents)
 
@@ -381,7 +383,7 @@ class TemplateValidatorSpec extends Spec {
       List(
         mkFormComponent(
           "fieldContainedInFormTemplate",
-          mkDate(ExactYear(2018), ExactMonth(4), ExactDay(31), Some(ExactDateValue(2018, 2, 31)))))
+          mkDate(Year.Exact(2018), Month.Exact(4), Day.Exact(31), Some(ExactDateValue(2018, 2, 31)))))
 
     val newFormTemplate = mkFormTemplate(formComponents)
 
@@ -421,9 +423,9 @@ class TemplateValidatorSpec extends Spec {
   "TemplateValidator.validateDates with dates 2018-02-29 and 2019-11-31 in a group" should "return Invalid" in {
 
     val dateFormComponent1 =
-      mkFormComponent("fieldInGroup1", mkDate(ExactYear(2018), ExactMonth(2), ExactDay(29), None))
+      mkFormComponent("fieldInGroup1", mkDate(Year.Exact(2018), Month.Exact(2), Day.Exact(29), None))
     val dateFormComponent2 =
-      mkFormComponent("fieldInGroup2", mkDate(ExactYear(2019), ExactMonth(11), ExactDay(31), None))
+      mkFormComponent("fieldInGroup2", mkDate(Year.Exact(2019), Month.Exact(11), Day.Exact(31), None))
 
     val formComponents = List(mkFormComponent("group", Group(List(dateFormComponent1, dateFormComponent2))))
 
@@ -467,7 +469,7 @@ class TemplateValidatorSpec extends Spec {
       List(
         mkFormComponent(
           "fieldContainedInFormTemplate",
-          mkDate(ExactYear(2018), ExactMonth(2), ExactDay(30), None, offsetDate = OffsetDate(-1))))
+          mkDate(Year.Exact(2018), Month.Exact(2), Day.Exact(30), None, offsetDate = OffsetDate(-1))))
 
     val newFormTemplate = mkFormTemplate(formComponents)
 
@@ -558,7 +560,7 @@ class TemplateValidatorSpec extends Spec {
 
   private def mkDate(value: Option[DateValue]) =
     Date(
-      DateConstraints(List(DateConstraint(Precisely, ConcreteDate(AnyYear, AnyMonth, AnyDay), OffsetDate(0)))),
+      DateConstraints(List(DateConstraint(Precisely, ConcreteDate(Year.Any, Month.Any, Day.Any), OffsetDate(0)))),
       Offset(0),
       value)
 
