@@ -74,8 +74,8 @@ object SectionTemplateReads {
 
   private def readRepeatsRange(json: JsValue) =
     for {
-      repeatsMin <- (json \ "repeatsMin").validateOpt[Expr]
-      repeatsMax <- (json \ "repeatsMax").validateOpt[Expr]
+      repeatsMin <- (json \ "repeatsMin").validateOpt[TextExpression].map(_.map(_.expr))
+      repeatsMax <- (json \ "repeatsMax").validateOpt[TextExpression].map(_.map(_.expr))
     } yield (repeatsMin, repeatsMax)
 
   private def readRepeats(json: JsValue) = (json \ "repeats").validateOpt[Expr]
