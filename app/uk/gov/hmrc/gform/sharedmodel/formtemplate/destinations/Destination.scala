@@ -137,7 +137,8 @@ case class UploadableHmrcDmsDestination(
         cii.getOrElse(true.toString),
         failOnError.getOrElse(true),
         roboticsXml.getOrElse(false),
-        None)
+        None
+      )
 }
 
 object UploadableHmrcDmsDestination {
