@@ -138,7 +138,9 @@ class FormSpec extends FlatSpec with Matchers with PropertyChecks {
       Map(
         FormComponentId("emailId") -> EmailAndCode("josef@hmrc.com", EmailConfirmationCode("HPKHWB"))
       ),
-      QueryParams.empty
+      QueryParams.empty,
+      None,
+      BooleanExprCache.empty
     ),
     Some(EnvelopeExpiryDate(LocalDateTime.of(2064, 12, 1, 0, 0, 40)))
   )

@@ -18,7 +18,7 @@ package uk.gov.hmrc.gform.sharedmodel.form
 
 import play.api.libs.json._
 import uk.gov.hmrc.gform.sharedmodel.formtemplate.{ FormComponentId, JsonUtils }
-import uk.gov.hmrc.gform.sharedmodel.{ NotChecked, Obligations }
+import uk.gov.hmrc.gform.sharedmodel.{ BooleanExprCache, NotChecked, Obligations }
 import uk.gov.hmrc.gform.sharedmodel.des.DesRegistrationResponse
 
 case class ThirdPartyData(
@@ -26,14 +26,15 @@ case class ThirdPartyData(
   obligations: Obligations,
   emailVerification: Map[FormComponentId, EmailAndCode],
   queryParams: QueryParams,
-  reviewData: Option[Map[String, String]] = None
+  reviewData: Option[Map[String, String]] = None,
+  booleanExprCache: BooleanExprCache
 ) {
 
   def reviewComments: Option[String] = reviewData.flatMap(_.get("caseworkerComment"))
 }
 
 object ThirdPartyData {
-  val empty = ThirdPartyData(None, NotChecked, Map.empty, QueryParams.empty)
+  val empty = ThirdPartyData(None, NotChecked, Map.empty, QueryParams.empty, None, BooleanExprCache.empty)
 
   // This will be safe to remove one month after release of this reads,
   // because at that point all forms in mongo will have 'queryParams' field.

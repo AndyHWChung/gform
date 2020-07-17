@@ -58,6 +58,13 @@ trait JsonUtils {
       case (k, v) => aToString(k) -> v
     })
 
+  def formatMapO[A, B: Format](stringToA: String => Option[A], aToString: A => String): Format[Map[A, B]] =
+    implicitly[Format[Map[String, B]]].inmap(_.flatMap {
+      case (k, v) => stringToA(k).fold(Map.empty[A, B])(s => Map(s -> v))
+    }, _.map {
+      case (k, v) => aToString(k) -> v
+    })
+
   def constReads[A](a: A): Reads[A] = new Reads[A] {
     def reads(json: JsValue): JsResult[A] = JsSuccess(a)
   }

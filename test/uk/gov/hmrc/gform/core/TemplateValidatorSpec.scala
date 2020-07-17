@@ -488,7 +488,7 @@ class TemplateValidatorSpec extends Spec {
       Table(
         // format: off
         ("expr", "expected"),
-        (In (FormCtx("fieldB"), SeissEligible),  Valid),
+        (In (FormCtx(FormComponentId("fieldB")), SeissEligible),  Valid),
         (In (AuthCtx(SaUtr), SeissEligible),  Valid),
         (In (ParamCtx(QueryParam("test")), SeissEligible),  Valid)
         // format: on
