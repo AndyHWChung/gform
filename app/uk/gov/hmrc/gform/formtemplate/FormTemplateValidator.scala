@@ -223,7 +223,6 @@ object FormTemplateValidator {
           .validationResult(s"Form field '$value' is not defined in form template.")
       case ParamCtx(_)        => Valid
       case AuthCtx(_)         => Valid
-      case EeittCtx(_)        => Valid
       case UserCtx(_)         => Valid
       case Constant(_)        => Valid
       case Value              => Valid

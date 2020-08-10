@@ -110,21 +110,6 @@ class ValueParserSpec extends Spec {
     res.right.value should be(TextExpression(Subtraction(FormCtx("age"), Constant("1"))))
   }
 
-  it should "parse ${eeitt.businessUser}" in {
-    val res = ValueParser.validate("${eeitt.businessUser}")
-    res.right.value should be(TextExpression(EeittCtx(BusinessUser)))
-  }
-
-  it should "parse ${eeitt.agent}" in {
-    val res = ValueParser.validate("${eeitt.agent}")
-    res.right.value should be(TextExpression(EeittCtx(Agent)))
-  }
-
-  it should "parse ${eeitt.userId}" in {
-    val res = ValueParser.validate("${eeitt.userId}")
-    res.right.value should be(TextExpression(EeittCtx(UserId)))
-  }
-
   it should "parse ${form.firstName}" in {
     val res = ValueParser.validate("${form.firstName}")
     res.right.value should be(TextExpression(FormCtx("firstName")))
@@ -196,16 +181,6 @@ class ValueParserSpec extends Spec {
     val res = ValueParser.validate("${age.sum}")
 
     res.right.value should be(TextExpression(Sum(FormCtx("age"))))
-  }
-
-  it should "parse ${eeitt.firstName + form.secondName}" in {
-    val res = ValueParser.validate("${eeitt.businessUser + form.secondName}")
-    res.right.value should be(TextExpression(Add(EeittCtx(BusinessUser), FormCtx("secondName"))))
-  }
-
-  it should "parse ${eeitt.firstName * form.secondName}" in {
-    val res = ValueParser.validate("${eeitt.businessUser * form.secondName}")
-    res.right.value should be(TextExpression(Multiply(EeittCtx(BusinessUser), FormCtx("secondName"))))
   }
 
   it should "parse ${firstName * secondName}" in {

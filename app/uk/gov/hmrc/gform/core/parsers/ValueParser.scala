@@ -75,12 +75,9 @@ object ValueParser {
     InternalLink.printAcknowledgementPdf
   }
 
-  lazy val contextField: Parser[Expr] = ("eeitt" ~ "." ~ eeitt ^^ { (loc, _, _, eeitt) =>
-    EeittCtx(eeitt)
+  lazy val contextField: Parser[Expr] = ("user" ~ "." ~ userField ^^ { (loc, _, _, userField) =>
+    UserCtx(userField)
   }
-    | "user" ~ "." ~ userField ^^ { (loc, _, _, userField) =>
-      UserCtx(userField)
-    }
     | "form" ~ "." ~ "submissionReference" ^^ { (loc, _, _, fieldName) =>
       FormTemplateCtx(FormTemplateProp.SubmissionReference)
     }
@@ -173,12 +170,6 @@ object ValueParser {
       | """\d[\d,]*\.([\d]*\d)?""".r ^^ { (loc, str) =>
         Constant(str)
       }
-  )
-
-  lazy val eeitt: Parser[Eeitt] = (
-    "businessUser" ^^ const(BusinessUser)
-      | "agent" ^^ const(Agent)
-      | "userId" ^^ const(UserId)
   )
 
   lazy val userField: Parser[UserField] = (

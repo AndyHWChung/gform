@@ -84,7 +84,7 @@ trait ExampleAuthConfig extends DestinationGen {
 
   def regimeId = RegimeId("TestRegimeId")
 
-  def authConfig = EeittModule(regimeId)
+  def authConfig = Anonymous
 }
 
 trait ExampleFieldId {

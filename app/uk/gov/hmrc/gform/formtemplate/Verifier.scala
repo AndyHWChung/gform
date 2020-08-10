@@ -71,7 +71,7 @@ trait Verifier {
 
   private def mkSpecimen(page: Page): Section.NonRepeatingPage =
     Section.NonRepeatingPage(
-      (removeIncludeIf _ andThen mkComponentsOptional _ andThen noValidators _ andThen noEeittExpression _)(page)
+      (removeIncludeIf _ andThen mkComponentsOptional _ andThen noValidators _)(page)
     )
 
   private def removeIncludeIf(section: Page): Page = section.copy(includeIf = None)
@@ -85,15 +85,6 @@ trait Verifier {
 
   private def noValidators(section: Page): Page =
     section.copy(validators = None)
-
-  private def noEeittExpression(section: Page): Page =
-    section.copy(fields = section.fields.map {
-      case f @ IsText(text @ Text(_, EeittCtx(eeitt), _, _)) =>
-        f.copy(`type` = text.copy(value = Constant(eeitt.toString)))
-      case f @ IsTextArea(textArea @ TextArea(_, EeittCtx(eeitt), _)) =>
-        f.copy(`type` = textArea.copy(value = Constant(eeitt.toString)))
-      case f => f
-    })
 
   private def mkOptional(fcs: List[FormComponent]): List[FormComponent] = fcs.map {
     case fc @ IsGroup(group) =>
